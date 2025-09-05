@@ -73,3 +73,158 @@ int main() {
 
     return 0;
 }
+
+
+
+
+
+
+question 2 
+
+#include<iostream>
+#include<stack>
+using namespace std;
+
+int main(){
+    string s = "DATASTRUCTURES";
+    stack<int> st;
+    int i = 0;
+    while(i<s.length()){
+        st.push(s[i]);
+        i++;
+    }
+    while(!st.empty()){
+        char val = st.top();
+        st.pop();
+        cout << val;
+    }
+    cout << endl;
+
+    return 0;
+}
+
+
+
+question 3
+
+#include<iostream>
+#include<stack>
+using namespace std;
+
+int main(){
+    string s = "(DAT(A(STRU)CTURE)S)";
+    stack<char> st; 
+    int i = 0;
+
+    while(i < s.length()){
+        char curr = s[i];
+
+        if(curr == '('){
+            st.push(curr);
+        } 
+        
+        else if(curr == ')'){
+            if(!st.empty() && st.top() == '('){
+                st.pop();
+                
+            } else {
+                cout << "unbalanced brackets" << endl;
+                return 0;
+            }
+        }
+
+        i++;
+
+    }
+
+    if(st.empty()){
+        cout << "balanced brackets" << endl;
+    } else {
+        cout << "unbalanced brackets" << endl;
+    }
+
+    return 0;
+}
+
+question 4
+
+#include<iostream>
+#include<stack>
+using namespace std;
+
+int prec(char c) {
+    if (c == '^')
+        return 3;
+    else if (c == '/' || c == '*')
+        return 2;
+    else if (c == '+' || c == '-')
+        return 1;
+    else
+        return -1;
+}
+
+int main(){
+    string s = "a+b*c+d*8*9+f";
+    stack<char> st; 
+    int i = 0;
+    string answ;
+
+    while(i < s.length()){
+        char curr = s[i];
+        if( (curr >=97 && curr<=122) || (curr >= '0' && curr <='9') ){
+            answ += curr;
+        }
+        else{
+            while( !st.empty() && prec(curr) <= prec(st.top()) ){
+                answ += st.top();
+                st.pop();
+        }
+        st.push(curr);
+        }
+         i++;
+}
+    while (!st.empty()) {
+        answ += st.top();
+        st.pop();
+    }
+    cout << answ << endl;
+   return 0;
+}
+
+
+question 5
+
+#include <iostream>
+#include <stack>
+#include <vector>
+using namespace std;
+
+int main() {
+    stack<int> st;
+    vector<string> arr = {"2", "3", "1", "*", "+", "9", "-"};
+
+    for (int i = 0; i < arr.size(); i++) {
+        string curr = arr[i];
+
+        if(curr >= "0" && curr <= "9") {
+            st.push(stoi(curr));     // stoi -> conversion of string to integer
+        }
+        else {
+            int val1 = st.top(); 
+            st.pop();
+            int val2 = st.top(); 
+            st.pop();
+            
+            if (curr == "+")
+                st.push(val2 + val1);
+            else if (curr == "-")
+                st.push(val2 - val1);
+            else if (curr == "*")
+                st.push(val2 * val1);
+            else if (curr == "/")
+                st.push(val2 / val1);
+        }
+    }
+    cout << "answer is : " << st.top();
+    return 0;
+}
